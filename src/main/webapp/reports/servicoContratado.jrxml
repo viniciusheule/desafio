@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-06-04T22:50:52 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="servicoContratado" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b351b60e-51f9-459c-866e-82dceb6e7682">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="ZGVzYWZpby5jbGllbnRlIEFTICwzMDEsMjM2LDIyY2E4NTdjLTQzZGYtNGFiOS1hOGM3LTU2MzJi&#xA;MTdkZGFiMztkZXNhZmlvLnNlcnZpY28gQVMgLDM0MiwxMDIsYTA3ODQzNTUtZmVjMy00M2NjLWI0&#xA;MTgtZTZlNGJkODkwNjYzO2Rlc2FmaW8uc2Vydmljb2NvbnRyYXRhZG8gQVMgLDExNCw1LGRiZjhm&#xA;NWJlLTY1NWUtNGEwNy1hMjg0LTVhYjI3NzYyYWIzNzs="/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Desafio Data Adapter"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT desafio.servico.`tipoServico`,
+	desafio.servicocontratado.`dtContratacao`,
+	desafio.servicocontratado.`dtFim`,
+	desafio.servicocontratado.`dtInicio`,
+	desafio.servicocontratado.`dtPagamento`,
+	desafio.servicocontratado.valor,
+	desafio.cliente.`razaoSocial`
+FROM desafio.servicocontratado
+	INNER JOIN desafio.servico ON 
+	 desafio.servicocontratado.servico_codigo = desafio.servico.codigo 
+	INNER JOIN desafio.cliente ON 
+	 desafio.servicocontratado.cliente_codigo = desafio.cliente.codigo 
+ORDER BY desafio.cliente.`razaoSocial` ASC]]>
+	</queryString>
+	<field name="tipoServico" class="java.lang.String"/>
+	<field name="dtContratacao" class="java.sql.Date"/>
+	<field name="dtFim" class="java.sql.Date"/>
+	<field name="dtInicio" class="java.sql.Date"/>
+	<field name="dtPagamento" class="java.sql.Date"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="razaoSocial" class="java.lang.String"/>
+	<variable name="razaoSocial1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{razaoSocial}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="595" height="79" uuid="3505ffbd-af2f-4e71-9f13-51c7f7f6ed39"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESAFIO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="595" height="51" uuid="79ed935f-11d0-453c-8810-8620aefda8a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Serviços Contratados]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="30" uuid="55a1bf19-164d-4494-b431-b4de14419351"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razão Social]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="90" height="30" uuid="1b3b9454-69cf-4707-a479-00c22419e141"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Serviço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="80" height="30" uuid="89c5660d-e800-4b1a-8480-0f056935ece6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Contratação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="80" height="30" uuid="5ad68d81-6619-4a84-b979-86f87af7f667"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="80" height="30" uuid="f47fc996-0065-4b8e-9538-caf80168292a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Final]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="80" height="30" uuid="65390e7c-78b6-4e28-88be-793b379888b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="85" height="30" uuid="d8354c47-ebcc-4928-82a6-81cafc388a75"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="30" uuid="53f995b5-2c22-484e-8bc2-3c3639828071"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{razaoSocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="90" height="30" uuid="c878a4d1-f02b-4693-8d7d-a1c60f76626a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoServico}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="170" y="0" width="80" height="30" uuid="57d6d856-5047-4a50-b5e5-04f2a33d431a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dtContratacao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="250" y="0" width="80" height="30" uuid="7fe325df-eca7-4311-ba0c-d19bf303daed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dtInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="330" y="0" width="80" height="30" uuid="4959a887-7148-4141-987b-bf4baa8de02f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dtFim}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="410" y="0" width="80" height="30" uuid="7808831a-d141-4170-9188-603973d683d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dtPagamento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="0.00">
+				<reportElement x="490" y="0" width="85" height="30" uuid="05b50824-e8f8-4825-9626-05baeebda256"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="595" height="60" uuid="929ca2e0-b7f5-4f02-9e76-350b2c1d388d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Avenida São Paulo, 57, Jardim São Lucas, CEP 18760-000, C.César]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

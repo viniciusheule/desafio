@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formListagem">
+			<p:panel header="Serviços Contratados - Listagem">
+				<p:dataTable id="tabela" widgetVar="tabela"
+					emptyMessage="Nenhum registro encontrado." paginator="true"
+					value="#{servicoContratadoBean.servicoContratados}"
+					var="servicoContratado" rows="5" paginatorPosition="bottom">
+					<f:facet name="header">
+					
+						<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+							actionListener="#{servicoContratadoBean.novo}"
+							update=":formCadastro:painel">
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+
+						<p:commandButton value="Imprimir" actionListener="#{servicoContratadoBean.imprimir}"/>
+						
+					</f:facet>
+
+					<p:column headerText="Cliente"
+						filterBy="#{servicoContratado.cliente.razaoSocial}"
+						sortBy="#{servicoContratado.cliente.razaoSocial}">
+						<h:outputText value="#{servicoContratado.cliente.razaoSocial}" />
+					</p:column>
+
+					<p:column headerText="Tipo de Serviço"
+						sortBy="#{servicoContratado.servico.tipoServico}">
+						<h:outputText value="#{servicoContratado.servico.tipoServico}" />
+					</p:column>
+
+					<p:column headerText="Data Contratação"
+						sortBy="#{servicoContratado.dtContratacao}">
+						<h:outputText value="#{servicoContratado.dtContratacao}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Data de Inicio do Projeto"
+						sortBy="#{servicoContratado.dtInicio}">
+						<h:outputText value="#{servicoContratado.dtInicio}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Data Final do Projeto"
+						sortBy="#{servicoContratado.dtFim}">
+						<h:outputText value="#{servicoContratado.dtFim}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Data de Pagamento"
+						sortBy="#{servicoContratado.dtPagamento}">
+						<h:outputText value="#{servicoContratado.dtPagamento}">
+							<f:convertDateTime locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Valor" sortBy="#{servicoContratado.valor}">
+						<h:outputText value="#{servicoContratado.valor}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Opções">
+						<p:commandButton icon="ui-icon-trash"
+							actionListener="#{servicoContratadoBean.excluir}"
+							update=":mensagem :formListagem:tabela">
+							<p:confirm header="Confirmação"
+								message="Deseja excluir o serviço contratado?"
+								icon="ui-icon-alert" />
+							<f:attribute name="servicoContratadoSelecionado"
+								value="#{servicoContratado}" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-pencil"
+							actionListener="#{servicoContratadoBean.editar}"
+							update=":formCadastro:painel" oncomplete="PF('dialogo').show();">
+							<f:attribute name="servicoContratadoSelecionado"
+								value="#{servicoContratado}" />
+							<f:actionListener
+								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<p:confirmDialog global="true">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:panel>
+		</h:form>
+
+		<p:dialog header="Serviços Contratados - Cadastro" widgetVar="dialogo"
+			draggable="false" resizable="false" modal="true" closable="false">
+			<h:form id="formCadastro">
+				<h:panelGrid id="painel" columns="2">
+
+					<p:outputLabel value="Cliente:" />
+					<p:selectOneMenu
+						value="#{servicoContratadoBean.servicoContratado.cliente}"
+						required="true" requiredMessage="O campo 'Cliente' é obrigatório"
+						converter="omnifaces.SelectItemsConverter" filter="true"
+						filterMatchMode="contains">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um cliente" />
+						<f:selectItems value="#{servicoContratadoBean.clientes}"
+							var="cliente" itemValue="#{cliente}"
+							itemLabel="#{cliente.razaoSocial} - #{cliente.cnpj}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Tipo de Serviço:" />
+					<p:selectOneMenu
+						value="#{servicoContratadoBean.servicoContratado.servico}"
+						required="true"
+						requiredMessage="O campo 'Tipo de Serviço' é obrigatório"
+						converter="omnifaces.SelectItemsConverter" filter="true"
+						filterMatchMode="contains">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um Tipo de Serviço" />
+						<f:selectItems value="#{servicoContratadoBean.servicos}"
+							var="servico" itemValue="#{servico}"
+							itemLabel="#{servico.tipoServico}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="dtContratacao" value="Data de Contratação:" />
+					<p:calendar id="dtContratacao"
+						value="#{servicoContratadoBean.servicoContratado.dtContratacao}"
+						required="true"
+						requiredMessage="O campo 'Data de Contratação' obrigatório"
+						size="10" locale="pt_BR" />
+
+					<p:outputLabel for="dtInicio" value="Data de Inicio do Projeto:" />
+					<p:calendar id="dtInicio"
+						value="#{servicoContratadoBean.servicoContratado.dtInicio}"
+						required="true"
+						requiredMessage="O campo 'Data de Inicio do Projeto' obrigatório"
+						size="10" locale="pt_BR" />
+
+					<p:outputLabel for="dtFim" value="Data Final do Projeto:" />
+					<p:calendar id="dtFim"
+						value="#{servicoContratadoBean.servicoContratado.dtFim}"
+						required="true"
+						requiredMessage="O campo 'Data Final do Projeto' é obrigatório"
+						size="10" locale="pt_BR" />
+
+					<p:outputLabel for="dtPagamento" value="Data do Pagamento:" />
+					<p:calendar id="dtPagamento"
+						value="#{servicoContratadoBean.servicoContratado.dtPagamento}"
+						required="true"
+						requiredMessage="O campo 'Data de Pagamento' é obrigatório"
+						size="10" locale="pt_BR" />
+				</h:panelGrid>
+
+				<p:outputLabel for="valor" value="Valor:" />
+				<p:inputText id="valor" maxlength="7" size="10"
+					value="#{servicoContratadoBean.servicoContratado.valor}"
+					required="true" requiredMessage="O campo 'Valor' é obrigatório"
+					converterMessage="Informe um valor válido para o campo 'Valor''"
+					validatorMessage="Informe um valor entre 0,01 e 9999,99 para o campo 'Valor'">
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</p:inputText>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{servicoContratadoBean.salvar}"
+						update=":mensagem :formCadastro:painel formListagem:tabela" />
+					<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
